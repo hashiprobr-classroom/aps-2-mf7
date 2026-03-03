@@ -52,11 +52,21 @@ void fft(complex s[], complex t[], int n, int sign) {
         }
     }
     
+    for(int k=0;k<n/2;k++){
+        double x = sign * 2 * PI * k / n;
+
+     
+        ti[k].a += si[(n-1)/2].a * cos(x) - si[(n-1)/2].b * sin(x);
+        ti[k].b += si[(n-1)/2].a * sin(x) + si[(n-1)/2].b * cos(x);
+
+        tp[k].a += sp[(n-1)/2].a * cos(x) - sp[(n-1)/2].b * sin(x);
+        tp[k].b += sp[(n-1)/2].a * sin(x) + sp[(n-1)/2].b * cos(x);
+
+    }
     fft(sp, tp, n/2, sign);
     fft(si, ti, n/2, sign);
     for(int k=0;k<n/2;k++){
         double x = sign * 2 * PI * k / n;
-
         t[k].a = tp[k].a + ti[k].a*cos(x) - ti[k].b*sin(x);
         t[k].b = tp[k].b + ti[k].a*sin(x) + ti[k].b*cos(x);
 
